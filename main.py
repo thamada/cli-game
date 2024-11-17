@@ -4,7 +4,7 @@ import curses
 
 def main(stdscr):
     # Curses setup
-    curses.curs_set(0)
+    curses.curs_set(1)
     stdscr.clear()
 
     height, width = stdscr.getmaxyx()
@@ -38,8 +38,10 @@ def main(stdscr):
 
         if current_window == 'left':
             curses.curs_set(1)
+            left_win.clear()
             draw_menu(left_win, options, current_row)
-            key = left_win.getch()
+            left_win.refresh()
+            key = stdscr.getch()
 
             if key == curses.KEY_UP and current_row > 0:
                 current_row -= 1
@@ -58,8 +60,10 @@ def main(stdscr):
 
         elif current_window == 'right':
             curses.curs_set(1)
+            right_win.clear()
             draw_menu(right_win, exit_options, current_col, horizontal=True)
-            key = right_win.getch()
+            right_win.refresh()
+            key = stdscr.getch()
 
             if key == curses.KEY_LEFT and current_col > 0:
                 current_col -= 1
@@ -72,9 +76,6 @@ def main(stdscr):
                     current_window = 'left'
             elif key == 9:  # Tab key
                 current_window = 'left'
-
-        left_win.refresh()
-        right_win.refresh()
 
 def draw_menu(win, options, selected_idx, horizontal=False):
     win.clear()

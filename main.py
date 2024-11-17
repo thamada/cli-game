@@ -38,9 +38,39 @@ def main(stdscr):
                 create_file("go_to_shop.txt", "You chose to go to shop.")
             break
         elif key == 27:  # ESC key
-            break
+            if confirm_exit(stdscr):
+                break
 
     stdscr.refresh()
+
+def confirm_exit(stdscr):
+    exit_options = [
+        "Exit",
+        "Cancel"
+    ]
+    current_row = 0
+
+    while True:
+        stdscr.clear()
+        stdscr.addstr(0, 0, "Do you want to exit?")
+        for idx, option in enumerate(exit_options):
+            if idx == current_row:
+                stdscr.addstr(idx + 1, 0, option, curses.A_REVERSE)
+            else:
+                stdscr.addstr(idx + 1, 0, option)
+
+        key = stdscr.getch()
+
+        if key == curses.KEY_UP and current_row > 0:
+            current_row -= 1
+        elif key == curses.KEY_DOWN and current_row < len(exit_options) - 1:
+            current_row += 1
+        elif key == ord('\n'):
+            if current_row == 0:  # Exit selected
+                return True
+            elif current_row == 1:  # Cancel selected
+                return False
+
 
 def create_file(filename, content):
     filepath = os.path.join("/tmp", filename)

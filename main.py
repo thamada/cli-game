@@ -40,6 +40,7 @@ def main(stdscr):
             curses.curs_set(1)
             left_win.clear()
             draw_menu(left_win, options, current_row)
+            left_win.move(current_row, 0)
             left_win.refresh()
             key = stdscr.getch()
 
@@ -62,6 +63,7 @@ def main(stdscr):
             curses.curs_set(1)
             right_win.clear()
             draw_menu(right_win, exit_options, current_col, horizontal=True)
+            right_win.move(0, current_col * 10)
             right_win.refresh()
             key = stdscr.getch()
 

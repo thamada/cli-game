@@ -48,29 +48,29 @@ def confirm_exit(stdscr):
         "Exit",
         "Cancel"
     ]
-    current_row = 0
+    current_col = 0
 
     while True:
         stdscr.clear()
         stdscr.addstr(0, 0, "Do you want to exit?")
         for idx, option in enumerate(exit_options):
-            if idx == current_row:
-                stdscr.addstr(idx + 1, 0, option, curses.A_REVERSE)
+            x_position = idx * 10
+            if idx == current_col:
+                stdscr.addstr(1, x_position, option, curses.A_REVERSE)
             else:
-                stdscr.addstr(idx + 1, 0, option)
+                stdscr.addstr(1, x_position, option)
 
         key = stdscr.getch()
 
-        if key == curses.KEY_UP and current_row > 0:
-            current_row -= 1
-        elif key == curses.KEY_DOWN and current_row < len(exit_options) - 1:
-            current_row += 1
+        if key == curses.KEY_LEFT and current_col > 0:
+            current_col -= 1
+        elif key == curses.KEY_RIGHT and current_col < len(exit_options) - 1:
+            current_col += 1
         elif key == ord('\n'):
-            if current_row == 0:  # Exit selected
+            if current_col == 0:  # Exit selected
                 return True
-            elif current_row == 1:  # Cancel selected
+            elif current_col == 1:  # Cancel selected
                 return False
-
 
 def create_file(filename, content):
     filepath = os.path.join("/tmp", filename)

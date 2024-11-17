@@ -10,15 +10,17 @@ def main(stdscr):
     height, width = stdscr.getmaxyx()
     left_width = width // 4
     right_width = width - left_width - 1
+    bottom_height = 15
 
     # Create windows
-    left_win = curses.newwin(height, left_width, 0, 0)
-    right_win = curses.newwin(height, right_width, 0, left_width + 1)
+    left_win = curses.newwin(height - bottom_height - 1, left_width, 0, 0)
+    right_win = curses.newwin(height - bottom_height - 1, right_width, 0, left_width + 1)
+    bottom_win = curses.newwin(bottom_height, width, height - bottom_height, 0)
 
     options = [
-        "return_your_home",
-        "go_to_your_school",
-        "go_to_shop"
+        "1. return_your_home",
+        "2. go_to_your_school",
+        "3. go_to_shop"
     ]
 
     descriptions = [
@@ -39,7 +41,8 @@ def main(stdscr):
     while True:
         # Draw window borders
         stdscr.clear()
-        stdscr.vline(0, left_width, '|', height)
+        stdscr.vline(0, left_width, '|', height - bottom_height - 1)
+        stdscr.hline(height - bottom_height - 1, 0, '-', width)
         stdscr.refresh()
 
         if current_window == 'left':
@@ -53,6 +56,11 @@ def main(stdscr):
             right_win.clear()
             right_win.addstr(0, 0, descriptions[current_row])
             right_win.refresh()
+
+            # Display current selection in the bottom window
+            bottom_win.clear()
+            bottom_win.addstr(0, 0, f"Current selection: {current_row + 1}")
+            bottom_win.refresh()
 
             key = stdscr.getch()
 
@@ -120,3 +128,4 @@ def create_file(filename, content):
 
 if __name__ == "__main__":
     curses.wrapper(main)
+

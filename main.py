@@ -83,11 +83,21 @@ def main(stdscr):
                 current_col = 0
 
         elif current_window == 'right':
+
+            left_win.clear()
+            draw_menu(left_win, options, current_row)
+            left_win.move(current_row, 0)
+            left_win.refresh()
+
             curses.curs_set(1)
             right_win.clear()
-            draw_menu(right_win, exit_options, current_col, horizontal=True)
-            right_win.move(0, current_col * 10)
+
+
+            # Display description in the right window
+            right_win.clear()
+            right_win.addstr(0, 0, descriptions[current_row])
             right_win.refresh()
+
             key = stdscr.getch()
 
             if key == curses.KEY_LEFT and current_col > 0:

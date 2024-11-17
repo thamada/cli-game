@@ -37,6 +37,8 @@ def main(stdscr):
             elif current_row == 2:
                 create_file("go_to_shop.txt", "You chose to go to shop.")
             break
+        elif key == 27:  # ESC key
+            break
 
     stdscr.refresh()
 
@@ -48,4 +50,3 @@ def create_file(filename, content):
 
 if __name__ == "__main__":
     curses.wrapper(main)
-

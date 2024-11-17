@@ -21,6 +21,12 @@ def main(stdscr):
         "go_to_shop"
     ]
 
+    descriptions = [
+        "This option will take you back to your home.",
+        "This option will take you to your school.",
+        "This option will take you to the shop."
+    ]
+
     exit_options = [
         "Exit",
         "Cancel"
@@ -42,6 +48,12 @@ def main(stdscr):
             draw_menu(left_win, options, current_row)
             left_win.move(current_row, 0)
             left_win.refresh()
+
+            # Display description in the right window
+            right_win.clear()
+            right_win.addstr(0, 0, descriptions[current_row])
+            right_win.refresh()
+
             key = stdscr.getch()
 
             if key == curses.KEY_UP and current_row > 0:
@@ -58,6 +70,9 @@ def main(stdscr):
                 break
             elif key == 9:  # Tab key
                 current_window = 'right'
+            elif key == 27:  # ESC key
+                current_window = 'right'
+                current_col = 0
 
         elif current_window == 'right':
             curses.curs_set(1)
